@@ -1,27 +1,27 @@
-💼 JobMatch
+JobMatch
 
 Application intelligente d’analyse et de recommandation d’offres d’emploi
 
-🎯 Présentation
+ Présentation
 
 JobMatch est une application qui utilise les données du marché de l’emploi pour aider un utilisateur à identifier les offres correspondant le mieux à son profil.
 
 L’objectif est de permettre à l’utilisateur de :
 
-* 🔎 rechercher des offres d’emploi ;
-* 📊 comprendre les tendances du marché du travail ;
-* 💡 identifier les compétences les plus demandées ;
-* 📍 analyser les opportunités selon la localisation ;
-* 💼 explorer les métiers et secteurs qui recrutent ;
-* 🤝 obtenir des recommandations d’offres adaptées à son profil.
+* rechercher des offres d’emploi ;
+*  comprendre les tendances du marché du travail ;
+*  identifier les compétences les plus demandées ;
+*  analyser les opportunités selon la localisation ;
+*  explorer les métiers et secteurs qui recrutent ;
+*  obtenir des recommandations d’offres adaptées à son profil.
 
-❓ Problématique
+ Problématique
 
 Comment utiliser les données du marché de l’emploi pour aider un utilisateur à identifier les offres qui correspondent le mieux à son profil et à ses compétences ?
 
 ⸻
 
-📊 Dataset
+ Dataset
 
 Le projet utilise le dataset Job Market Intelligence 2024 - Skills Global Dataset disponible sur Kaggle.
 
@@ -36,13 +36,13 @@ Fichiers utilisés
 * dim_platform.csv → plateformes de recrutement
 * bridge_job_skills.csv → relation entre les offres et les compétences
 
-🔗 Source
+ Source
 
 Kaggle — Job Market Intelligence 2024-Skills Global Dataset
 
 ⸻
 
-🧹 Nettoyage des données
+ Nettoyage des données
 
 Avant l’analyse, les données seront étudiées et nettoyées afin de garantir leur qualité.
 
@@ -60,7 +60,7 @@ Les étapes principales sont :
 
 ⸻
 
-📈 Analyse des données
+ Analyse des données
 
 L’analyse permettra notamment de répondre aux questions suivantes :
 
@@ -77,7 +77,7 @@ Les analyses seront réalisées avec Python, Pandas, NumPy et Matplotlib.
 
 ⸻
 
-🤖 Data Science
+ Data Science
 
 Une partie Data Science sera consacrée à la création d’un système de recommandation d’offres.
 
@@ -103,23 +103,23 @@ Les critères et leur importance seront définis et testés pendant la partie Da
 
 ⸻
 
-🖥️ Application
+ Application
 
 L’application sera développée avec Streamlit.
 
 Elle pourra être organisée autour de plusieurs pages :
 
-🏠 Accueil
-📊 Dashboard
-👤 Mon profil
-🔎 Recherche d'offres
-🤝 Recommandations
+ Accueil
+ Dashboard
+ Mon profil
+ Recherche d'offres
+ Recommandations
 
 L’objectif final est d’obtenir une application fonctionnelle, interactive et facilement utilisable.
 
 ⸻
 
-🛠️ Technologies utilisées
+ Technologies utilisées
 
 * Python
 * Pandas
@@ -134,7 +134,7 @@ L’objectif final est d’obtenir une application fonctionnelle, interactive et
 
 ⸻
 
-📁 Structure du projet
+ Structure du projet
 
 JobMatch/
 │
@@ -161,7 +161,7 @@ JobMatch/
 ├── README.md
 └── requirements.txt
 
-📓 Organisation des notebooks
+ Organisation des notebooks
 
 01 — Data Understanding
 
@@ -185,7 +185,7 @@ Développer le système de recommandation.
 
 ⸻
 
-👥 Membres du groupe
+ Membres du groupe
 
 * Claudia
 * Kenny
@@ -195,7 +195,7 @@ Développer le système de recommandation.
 
 ⸻
 
-👨‍💻 Organisation du projet
+Organisation du projet
 
 Le travail est réparti autour de plusieurs domaines :
 
@@ -208,7 +208,7 @@ Chaque membre doit également comprendre le fonctionnement global du projet.
 
 ⸻
 
-🚀 Objectif final
+ Objectif final
 
 L’objectif de JobMatch est de transformer les données du marché de l’emploi en une application concrète permettant à un utilisateur de mieux comprendre les opportunités professionnelles disponibles et de trouver des offres correspondant à son profil.
 
