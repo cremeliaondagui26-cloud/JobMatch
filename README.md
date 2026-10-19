@@ -213,3 +213,20 @@ Chaque membre doit également comprendre le fonctionnement global du projet.
 L’objectif de JobMatch est de transformer les données du marché de l’emploi en une application concrète permettant à un utilisateur de mieux comprendre les opportunités professionnelles disponibles et de trouver des offres correspondant à son profil.
 
 De la donnée → à l’analyse → au modèle → à une application fonctionnelle.
+
+## Corrections demandées par le professeur
+
+Les compléments sont exécutés et enregistrés dans `notebooks/EDA.ipynb` : pourcentages avec effectifs, modes de travail par métier et expérience, paires de compétences avec support et lift, comparaison Entry/Senior, couverture des 13 pays et justification du cas d'usage Data Analyst. Les comparaisons salariales par métier, expérience et pays donnent l'effectif, la moyenne, Q1, la médiane, Q3 et l'écart-type. Les différences de modes de travail et de compétences Entry/Senior sont testées (chi², avec correction de Bonferroni pour les compétences).
+
+Business Analyst est absent des données. Business Intelligence Analyst est présenté comme un autre intitulé disponible, sans assimiler les deux métiers.
+
+`notebooks/04_data_science.ipynb` contient l'expérience prédictive et `notebooks/05_model_evaluation.ipynb` son évaluation. Le modèle prédit le milieu de la fourchette en USD, avec un test de 11 000 offres distinctes des 44 000 offres d'entraînement. La régression Ridge obtient une MAE d'environ 17 872 USD, contre 31 452 USD pour la moyenne de référence, mais pas mieux que la simple moyenne par métier (17 871 USD) : dans ce fichier, seul le métier permet de prédire le salaire. Les résultats sont limités à ce fichier et à ce découpage aléatoire.
+
+Reproduire les scores depuis la racine du projet :
+
+```sh
+python -m src.salary_prediction
+python -m pytest -q
+```
+
+Les scores et les prédictions de test sont exportés dans `data/processed/salary_model_metrics.csv` et `data/processed/salary_test_predictions.csv`.
