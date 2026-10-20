@@ -222,6 +222,8 @@ Business Analyst est absent des données. Business Intelligence Analyst est pré
 
 `notebooks/04_data_science.ipynb` contient l'expérience prédictive et `notebooks/05_model_evaluation.ipynb` son évaluation. Le modèle prédit le milieu de la fourchette en USD, avec un test de 11 000 offres distinctes des 44 000 offres d'entraînement. La régression Ridge obtient une MAE d'environ 17 872 USD, contre 31 452 USD pour la moyenne de référence, mais pas mieux que la simple moyenne par métier (17 871 USD) : dans ce fichier, seul le métier permet de prédire le salaire. Les résultats sont limités à ce fichier et à ce découpage aléatoire.
 
+`notebooks/model_training_tests.ipynb` prépare les données pour la question « Peut-on prédire le salaire d'une offre en fonction du métier et de l'expérience ? ». Il définit Y comme le milieu de la fourchette salariale en USD, X comme `job_title` et `experience_level`, puis sépare les observations en entraînement et test (80/20). Il ne sélectionne ni n'entraîne de modèle. Les jeux préparés sont exportés dans `data/processed/` pour être réutilisés dans l'étape de modélisation.
+
 Reproduire les scores depuis la racine du projet :
 
 ```sh
