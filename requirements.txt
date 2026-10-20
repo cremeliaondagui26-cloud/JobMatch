@@ -4,5 +4,7 @@ jupyter
 scikit-learn
 matplotlib
 seaborn
+scipy
+ipykernel
 streamlit
 pytest
