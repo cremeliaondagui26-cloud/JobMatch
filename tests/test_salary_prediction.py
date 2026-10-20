@@ -61,3 +61,42 @@ def test_restricted_feature_set_matches_professor_workflow():
     assert {"Reference moyenne", "Moyenne par metier", "Regression Ridge"}.issubset(set(scores.index))
     assert set(predictions.columns) >= {"job_id", "salaire_cible_usd", "Reference moyenne", "Moyenne par metier", "Regression Ridge"}
     assert scores["MAE_USD"].notna().all()
+
+
+def test_salary_or_identifier_cannot_be_used_as_a_feature():
+    jobs = sample_jobs()
+    for column in ["salary_min_usd", "salary_max_usd", "salary_midpoint_usd", "job_id"]:
+        with pytest.raises(ValueError, match="Variables explicatives"):
+            evaluate_salary_model(jobs, feature_columns=["job_title", column], include_skills=False)
+
+
+def test_nonfinite_and_reversed_salaries_are_excluded():
+    jobs = sample_jobs()
+    jobs["salary_min_usd"] = jobs.salary_min_usd.astype(float)
+    jobs.loc[0, "salary_min_usd"] = float("inf")
+    jobs.loc[1, "salary_min_usd"] = 1000000
+    scores, predictions, split = evaluate_salary_model(jobs, include_skills=False, return_split=True)
+    assert split["excluded_salary_rows"] == 2
+    assert not set(["JOB-0", "JOB-1"]) & (set(split["X_train"].index) | set(predictions.job_id))
+    assert scores.MAE_USD.notna().all()
+
+
+def test_test_only_skills_are_not_in_training_vocabulary():
+    from sklearn.model_selection import train_test_split
+    jobs = sample_jobs()
+    _, test_ids = train_test_split(jobs.job_id.to_numpy(), test_size=0.2, random_state=42)
+    links = pd.DataFrame({"job_id": jobs.job_id, "skill": ["SQL"] * len(jobs)})
+    links = pd.concat([links, pd.DataFrame({"job_id": [test_ids[0]], "skill": ["TestOnly"]})], ignore_index=True)
+    _, _, split = evaluate_salary_model(jobs, links, return_split=True)
+    assert "skill::SQL" in split["X_train"].columns
+    assert "skill::TestOnly" not in split["X_train"].columns
+
+
+def test_unseen_job_title_uses_training_global_mean_for_title_baseline():
+    from sklearn.model_selection import train_test_split
+    jobs = sample_jobs()
+    _, test_ids = train_test_split(jobs.job_id.to_numpy(), test_size=0.2, random_state=42)
+    jobs.loc[jobs.job_id.eq(test_ids[0]), "job_title"] = "Unseen title"
+    _, predictions, split = evaluate_salary_model(jobs, include_skills=False, return_split=True)
+    prediction = predictions.loc[predictions.job_id.eq(test_ids[0]), "Moyenne par metier"].item()
+    assert prediction == pytest.approx(split["y_train"].mean())
