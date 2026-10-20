@@ -155,6 +155,7 @@ Le formatage français ne change pas les valeurs de calcul. Les effectifs resten
 
 ## Vérifications et limites restantes
 
+
 - Deux notebooks exécutés depuis un noyau neuf : 17 cellules de code pour l'EDA, 6 pour le Machine Learning.
 - 14 tests réussis : dénominateurs, dédoublonnage, familles, conversion, coefficients, IDs, catégories inconnues, bornes invalides et prévention des fuites.
 - Dépendances installées cohérentes (`pip check`).
@@ -163,5 +164,6 @@ Le formatage français ne change pas les valeurs de calcul. Les effectifs resten
 - Les limites restantes concernent la documentation de collecte, la période salariale, la représentativité et la généralisation du modèle ; elles ne sont pas corrigées artificiellement.
 
 ## Groupe
+
 
 Claudia, Kenny, Béatrice, Nelson et Kim.
