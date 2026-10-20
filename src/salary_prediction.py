@@ -11,27 +11,35 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 
-def evaluate_salary_model(jobs, bridge, test_size=0.2, random_state=42):
+def evaluate_salary_model(jobs, bridge, test_size=0.2, random_state=42,
+                         feature_columns=None, include_skills=True):
     jobs = jobs.copy()
     if jobs.job_id.isna().any() or jobs.job_id.duplicated().any():
         raise ValueError("Chaque offre doit avoir un job_id unique et non manquant.")
     valid = (jobs.salary_min_usd.gt(0) & jobs.salary_max_usd.ge(jobs.salary_min_usd)
              & jobs[["salary_min_usd", "salary_max_usd"]].notna().all(axis=1))
     jobs = jobs.loc[valid].set_index("job_id")
-    # Neither salary bounds, application counts nor IDs are explanatory features.
-    categories = ["job_title", "country", "experience_level", "remote_option", "employment_type"]
-    features = jobs[categories].fillna("Inconnu")
-    links = bridge[["job_id", "skill"]].dropna().drop_duplicates()
-    skills = pd.crosstab(links.job_id, links.skill).clip(upper=1).add_prefix("skill::")
-    features = features.join(skills, how="left").fillna(0)
+
+    if feature_columns is None:
+        feature_columns = ["job_title", "country", "experience_level", "remote_option", "employment_type"]
+    else:
+        feature_columns = list(feature_columns)
+
+    features = jobs[feature_columns].fillna("Inconnu")
+
+    if include_skills:
+        links = bridge[["job_id", "skill"]].dropna().drop_duplicates()
+        skills = pd.crosstab(links.job_id, links.skill).clip(upper=1).add_prefix("skill::")
+        features = features.join(skills, how="left").fillna(0)
+
     target = (jobs.salary_min_usd + jobs.salary_max_usd) / 2
     train_ids, test_ids = train_test_split(jobs.index.to_numpy(), test_size=test_size, random_state=random_state)
     x_train, x_test = features.loc[train_ids], features.loc[test_ids]
     y_train, y_test = target.loc[train_ids], target.loc[test_ids]
+
     preprocessing = ColumnTransformer([
-        ("categories", OneHotEncoder(handle_unknown="ignore"), categories),
+        ("categories", OneHotEncoder(handle_unknown="ignore"), feature_columns),
     ], remainder="passthrough")
-    # One-hot job title + linear regression = mean salary of each job title in the training set.
     title_only = ColumnTransformer([("metier", OneHotEncoder(handle_unknown="ignore"), ["job_title"])])
     models = {
         "Reference moyenne": DummyRegressor(strategy="mean"),

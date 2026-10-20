@@ -47,3 +47,17 @@ def test_title_baseline_predicts_training_mean_of_each_title():
     train = jobs.loc[~jobs.job_id.isin(predictions.job_id)].assign(y=lambda d: (d.salary_min_usd + d.salary_max_usd) / 2)
     expected = pd.Series(titles).map(train.groupby("job_title").y.mean())
     assert predictions["Moyenne par metier"].to_numpy() == pytest.approx(expected.to_numpy())
+
+
+def test_restricted_feature_set_matches_professor_workflow():
+    jobs = sample_jobs()
+    links = pd.DataFrame({"job_id": jobs.job_id, "skill": ["SQL"] * 20})
+    scores, predictions = evaluate_salary_model(
+        jobs,
+        links,
+        feature_columns=["job_title", "experience_level", "country"],
+        include_skills=False,
+    )
+    assert {"Reference moyenne", "Moyenne par metier", "Regression Ridge"}.issubset(set(scores.index))
+    assert set(predictions.columns) >= {"job_id", "salaire_cible_usd", "Reference moyenne", "Moyenne par metier", "Regression Ridge"}
+    assert scores["MAE_USD"].notna().all()
