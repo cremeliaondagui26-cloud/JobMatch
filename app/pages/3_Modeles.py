@@ -3,18 +3,22 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from styles import apply_theme, render_footer, render_header, render_intro
+
 st.set_page_config(
     page_title="JobMatch | Modèles",
     page_icon="🤖",
     layout="wide"
 )
+apply_theme()
+render_header("models")
 
 ROOT = Path(__file__).resolve().parents[2]
 
-st.title("🤖 Comparaison des modèles")
-st.write(
-    "Évaluation des performances des modèles "
-    "de prédiction salariale de JobMatch."
+render_intro(
+    "Comparaison des modèles",
+    "Évaluation des performances des modèles de prédiction salariale de JobMatch.",
+    "🤖",
 )
 
 @st.cache_data
@@ -45,7 +49,7 @@ st.subheader("📋 Résultats des modèles")
 
 st.dataframe(
     resultats,
-    use_container_width=True,
+    width="stretch",
     hide_index=True
 )
 
@@ -103,3 +107,4 @@ st.info(
     "interne. Elles ne garantissent pas la même précision "
     "sur de nouvelles offres réelles."
 )
+render_footer()
